@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-from flask import Blueprint
 
-user = Blueprint('user', __name__)
+from app.libs.redprint import Redprint
+
+# user = Blueprint('user', __name__)
+api = Redprint('user')
 
 
-@user.route('/v1/user/get')
+@api.route('/get')
 def get_user():
     return 'i am qiyue'
