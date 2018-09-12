@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 from flask import request
+from werkzeug.exceptions import HTTPException
 
 from app.libs.enums import ClientTypeEnum
+from app.libs.error_code import ClientTypeError
 from app.libs.redprint import Redprint
 from app.validators.forms import ClientForm, UserEmailForm
 from app.models.user import User
@@ -26,6 +28,8 @@ def create_client():
             ClientTypeEnum.USER_MINA: __register_user_by_mina
         }
         promise[form.type.data]()
+    else:
+        raise ClientTypeError()
     return 'success'
 
 
