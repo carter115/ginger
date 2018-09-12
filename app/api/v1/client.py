@@ -4,10 +4,14 @@ from flask import request
 
 from app.libs.enums import ClientTypeEnum
 from app.libs.redprint import Redprint
-from app.validators.forms import ClientForm
+from app.validators.forms import ClientForm, UserEmailForm
+from app.models.user import User
 
-api = Redprint()
+api = Redprint('client')
 
+@api.route('/list')
+def client_list():
+    return 'client list'
 
 @api.route('/register', methods=['POST'])
 def create_client():
@@ -21,11 +25,14 @@ def create_client():
             ClientTypeEnum.USER_EMAIL: __register_user_by_email,
             ClientTypeEnum.USER_MINA: __register_user_by_mina
         }
-    pass
+        promise[form.type.data]()
+    return 'success'
 
 
 def __register_user_by_email():
-    pass
+    form = UserEmailForm(data=request.json)
+    if form.validate():
+        User.register_by_email(form.nickname.data, form.account.data, form.secret.data)
 
 
 def __register_user_by_mina():
