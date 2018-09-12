@@ -14,7 +14,7 @@ class APIException(HTTPException):
         if code:
             self.code = code
         if error_code:
-            self.error_code = code
+            self.error_code = error_code
         if msg:
             self.msg = msg
         super(APIException, self).__init__(msg, None)
