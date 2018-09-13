@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-from flask import jsonify
+from flask import jsonify, g
 
 from app.libs.redprint import Redprint
 from app.libs.token_auth import auth
-from app.libs.error_code import NotFound
-from app.models.user import User
+from app.libs.error_code import NotFound, DeleteSuccess
+from app.models.user import User, db
 
 api = Redprint('user')
-
 
 
 @api.route('/<int:uid>', methods=['GET'])
@@ -37,5 +36,16 @@ def update_user():
 
 
 @api.route('', methods=['DELETE'])
+@auth.login_required
 def delete_user():
-    return 'delete qiyue'
+    with db.auto_commit():
+        # 使用get方法，status=0/1都会查询出来。
+        # user = User.query.get_or_404(uid)
+
+        # 超权 当前用户(token id)可以删除其它用户ID
+        # 使用token携带的uid
+        uid = g.user.uid
+        # 使用重写后的filter_by，过滤status=1的行
+        user = User.query.filter_by(id=uid).first_or_404()
+        user.delete()
+    return DeleteSuccess()

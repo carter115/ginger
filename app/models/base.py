@@ -25,7 +25,7 @@ class Query(BaseQuery):
             kwargs['status'] = 1
         return super(Query, self).filter_by(**kwargs)
 
-    def get_or_404(self, ident, msg):
+    def get_or_404(self, ident, msg=None):
         rv = self.get(ident)
         if not rv:
             raise NotFound(msg=msg)
@@ -56,6 +56,9 @@ class Base(db.Model):
         for key, value in attrs_dict.items():
             if hasattr(self, key) and key != 'id':
                 setattr(self, key, value)
+
+    def delete(self):
+        self.status = 0
 
     @property
     def create_datetime(self):

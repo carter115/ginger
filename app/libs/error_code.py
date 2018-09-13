@@ -9,6 +9,13 @@ class Success(APIException):
     error_code = 0
 
 
+class DeleteSuccess(Success):
+    # http code 204 默认返回没有内容
+    # code = 204
+    code = 202
+    error_code = 1
+
+
 class ServerError(APIException):
     code = 500
     msg = 'sorry, we make a mistake...!!'
