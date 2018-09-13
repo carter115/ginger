@@ -1,7 +1,19 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
-from flask import Flask
+from flask import Flask as _Flask
+from flask.json import JSONEncoder as _JSONEncoder
+
+
+# 重写json序列化
+class JSONEncoder(_JSONEncoder):
+    def default(self, o):
+        # 类变量不会存放在__dict__里面
+        return o.__dict__
+
+
+class Flask(_Flask):
+    json_encoder = JSONEncoder
 
 
 def registrer_blueprint(app):
