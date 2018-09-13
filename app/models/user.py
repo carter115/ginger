@@ -4,6 +4,7 @@ from sqlalchemy import Column, Integer, String, SmallInteger
 from werkzeug.security import generate_password_hash, check_password_hash
 from .base import Base, db
 from app.libs.error_code import NotFound, AuthFailed
+from datetime import date
 
 
 class User(Base):
@@ -11,7 +12,12 @@ class User(Base):
     email = Column(String(24), unique=True)
     nickname = Column(String(24), unique=True)
     auth = Column(SmallInteger, default=1)
+    # time = date(2018, 9, 13)
     _password = Column('password', String(100))
+
+    def keys(self):
+        # return ['id', 'email', 'nickname', 'auth', 'time']
+        return ['id', 'email', 'nickname', 'auth']
 
     @property
     def password(self):
@@ -36,7 +42,6 @@ class User(Base):
         if not user.check_password(password):
             raise AuthFailed()
         return {'uid': user.id}
-
 
     def check_password(self, raw):
         if not self._password:

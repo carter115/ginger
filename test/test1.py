@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
+from datetime import datetime
+
+
 class QiYue:
     name = 'qiyue'
     age = 18
@@ -8,10 +11,12 @@ class QiYue:
     def __init__(self):
         self.gender = 'male'
         self.school = 'qinghua'
+        self.array = ['a', 'b', 'c']
+        self.now = datetime.now()
 
     def keys(self):
         # 控制返回字典的字段
-        return ['name', 'age', 'gender']
+        return ['name', 'age', 'gender', 'array','now']
 
     def __getitem__(self, item):
         return getattr(self, item)
