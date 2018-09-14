@@ -40,9 +40,9 @@ class User(Base):
     def verify(email, password):
         user = User.query.filter_by(email=email).first_or_404()
         if not user.check_password(password):
-            raise AuthFailed()
-        is_admin = True if user.auth == 2 else False
-        return {'uid': user.id, 'is_admin': is_admin}
+            raise AuthFailed('帐号或密码错误')
+        scope = 'AdminScope' if user.auth == 2 else 'UserScope'
+        return {'uid': user.id, 'is_admin': scope}
 
     def check_password(self, raw):
         if not self._password:
