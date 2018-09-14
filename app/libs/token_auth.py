@@ -9,7 +9,7 @@ from collections import namedtuple
 from app.libs.error_code import AuthFailed
 
 auth = HTTPBasicAuth()
-User = namedtuple('User', ['uid', 'ac_type', 'scope'])
+User = namedtuple('User', ['uid', 'ac_type', 'is_admin'])
 
 
 @auth.verify_password
@@ -37,5 +37,6 @@ def verify_auth_token(token):
                          error_code=1003)
     uid = data['uid']
     ac_type = data['type']
+    is_admin = data['is_admin']
     # 返回dict,tuple
-    return User(uid, ac_type, '')
+    return User(uid, ac_type, is_admin)
