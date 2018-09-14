@@ -60,6 +60,21 @@ class Base(db.Model):
     def delete(self):
         self.status = 0
 
+    def keys(self):
+        return self.fields
+
+    def hide(self, *keys):
+        # 修改keys函数里的字段
+        # self.fields.remove(field)
+        for key in keys:
+            self.fields.remove(key)
+        return self
+
+    def append(self, *keys):
+        for key in keys:
+            self.fields.append(key)
+        return self
+
     @property
     def create_datetime(self):
         if self.create_time:

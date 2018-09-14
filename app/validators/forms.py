@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
-from wtforms import Form, StringField, IntegerField
+from wtforms import StringField, IntegerField
 from wtforms.validators import DataRequired, Length, Email, Regexp, ValidationError
 
 from app.libs.enums import ClientTypeEnum
 from app.models.user import User
-from app.validators.base import BaseForm
+from app.validators.base import BaseForm as Form
 
 
-class ClientForm(BaseForm):
+class ClientForm(Form):
     account = StringField(
         validators=[DataRequired(message='不允许为空'),
                     Length(min=5, max=32)])
@@ -36,3 +36,11 @@ class UserEmailForm(ClientForm):
     def validate_account(self, value):
         if User.query.filter_by(email=value.data).first():
             raise ValidationError
+
+
+class BookSearchForm(Form):
+    q = StringField(validators=[DataRequired()])
+
+
+class TokenForm(Form):
+    token = StringField(validators=[DataRequired()])
