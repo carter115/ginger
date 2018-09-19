@@ -34,7 +34,7 @@ api = Redprint('user')
 @api.route('', methods=['GET'])
 @auth.login_required
 def get_user():
-    uid = g.user.id
+    uid = g.user.uid
     user = User.query.filter_by(id=uid).first_or_404()
     return jsonify(user)
 

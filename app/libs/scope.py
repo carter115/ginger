@@ -25,11 +25,10 @@ class Scope:
 
 class AdminScope(Scope):
     # 方法一
-    # allow_module = ['v1.user']
+    allow_module = ['v1.user']
 
     # 方法二
-    allow_api = ['v1.user+super_get_user',
-                 'v1.user+super_delete_user']
+    # allow_api = ['v1.user+super_get_user', 'v1.user+super_delete_user']
 
     def __init__(self):
         # self.add(UserScope())
@@ -40,9 +39,9 @@ class AdminScope(Scope):
 
 # 排除个别接口
 class UserScope(Scope):
-    allow_api = ['v1.user+get_user', 'v1.user+delete_user']
-    fobidden = ['v1.user+super_get_user',
-                'v1.user+super_delete_user']
+    # allow_api = ['v1.user+get_user', 'v1.user+delete_user']
+    allow_module = ['v1.user']
+    fobidden = ['v1.user+super_get_user', 'v1.user+super_delete_user']
 
 
 # class UserScope(Scope):
